@@ -39,7 +39,7 @@ def main(filename: str):
 def prepare_directories():
     targets = ['video_clips', 'report']
     for target in targets:
-        t = f'./{target}'
+        t = f'/app/data/{target}'
         mkdir(t)
         target_path = Path(t)
         if not (target_path.exists and target_path.is_dir):
@@ -47,7 +47,7 @@ def prepare_directories():
 
 
 def write_csv(entries: list[list[str]])->None:
-    with open('./report/generated_video_files', 'wt') as csv_out:
+    with open('/app/data/report/generated_video_files', 'wt') as csv_out:
         csv_writter = csv.writer(csv_out)
         csv_writter.writerows(entries)
 

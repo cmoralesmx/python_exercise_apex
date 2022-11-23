@@ -40,7 +40,7 @@ class Cutter:
         first_frame, frame_idx, clip_number = 0, 0, 1
         upper_limit = self.fps * 60 * clip_number
 
-        out_file = f'./{sub}/{frame_idx}thFrame{ext}'
+        out_file = f'/app/data/{sub}/{frame_idx}thFrame{ext}'
         logging.debug(f'{out_file=}')
 
         out.open(out_file, cccc, self.fps, (self.width, self.height), True)
@@ -62,12 +62,12 @@ class Cutter:
                 # duration = t1 - t0
                 d = ((frame_idx - 1) - first_frame) / self.fps
                 logging.debug(f'Done with one clip {frame_idx-1} {first_frame} {d}')
-                init_frames.append([f'{first_frame}thFrame', f'{ext}', f'{d}', f'./{sub}'])
+                init_frames.append([f'{first_frame}thFrame', f'{ext}', f'{d}', f'/app/data/{sub}'])
                 first_frame = frame_idx
 
                 clip_number += 1
                 upper_limit = self.fps * 60 * clip_number
-                out_file = f'./{sub}/{frame_idx}thFrame{ext}'
+                out_file = f'/app/data/{sub}/{frame_idx}thFrame{ext}'
                 logging.debug(f'{out_file=}')
 
                 out.open(out_file, cccc, self.fps, (self.width, self.height), True)

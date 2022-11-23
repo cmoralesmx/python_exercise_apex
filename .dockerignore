@@ -1,0 +1,8 @@
+__pycache__
+postgres
+report
+secrets
+video-clips
+*.mp4
+config.ini
+docker-compose.yml

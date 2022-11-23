@@ -6,7 +6,7 @@ my_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 logging.basicConfig(level=logging.DEBUG, format=my_format)
 
 
-def config(filename:str ='config.ini', section:str = 'postgres') -> dict:
+def config(filename:str ='/app/secrets/config.ini', section:str = 'postgres') -> dict:
     """Load the configuration parameters from config.ini"""
     parser = ConfigParser()
     parser.read(filename)
