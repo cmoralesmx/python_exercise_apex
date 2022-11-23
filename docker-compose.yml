@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  db_server:
+    image: 'postgres:15-alpine'
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: videodb-user
+      POSTGRES_DB: videodb
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:
+
+secrets:
+  db_password:
+    file: ./POSTGRES_PASSWORD
