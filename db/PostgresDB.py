@@ -77,6 +77,8 @@ class PostgresDB(object):
                      VALUES(%s, %s, %s, %s, now()) RETURNING clip_id;"""
 
         try:
+            logging.debug(f"{name=}, {extension=}, {duration}, {location}")
+
             self.cur.execute(command, (name, extension, duration, location))
             clip_id = self.cur.fetchone()[0]
             logging.debug(f"Inserted clip: {clip_id}")
