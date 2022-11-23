@@ -38,14 +38,15 @@ class Cutter:
         out = cv2.VideoWriter()
 
         first_frame, frame_idx, clip_number = 0, 0, 1
+        upper_limit = self.fps * 60 * clip_number
 
         out_file = f'./{sub}/{frame_idx}thFrame{ext}'
         logging.debug(f'{out_file=}')
 
         out.open(out_file, cccc, self.fps, (self.width, self.height), True)
         try:
-            while self.cap.isOpened():
-                ret, frame = self.read()
+            while True:
+                ret, frame = self.cap.read()
                 if not ret:
                     break
                 out.write(frame)
@@ -57,11 +58,11 @@ class Cutter:
                     continue
                 # otherwise, we must start the next clip
                 out.release()
-                logging.out('Done with one clip')
                 
                 # duration = t1 - t0
-                d = (frame_idx - 1) * self.fps - first_frame * self.fps
-                init_frames.append([f'{first_frame}thFrame', f'{ext}', d, f'./{sub}'])
+                d = ((frame_idx - 1) - first_frame) / self.fps
+                logging.debug(f'Done with one clip {frame_idx-1} {first_frame} {d}')
+                init_frames.append([f'{first_frame}thFrame', f'{ext}', f'{d}', f'./{sub}'])
                 first_frame = frame_idx
 
                 clip_number += 1
@@ -70,9 +71,10 @@ class Cutter:
                 logging.debug(f'{out_file=}')
 
                 out.open(out_file, cccc, self.fps, (self.width, self.height), True)
-        except:
+        except Exception as error:
             self.cap.release()
             out.release()
+            logging.error(error)
 
         self.cap.release()
         out.release()

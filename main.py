@@ -33,9 +33,8 @@ def main(filename: str):
                 record[2],
                 record[3])
 
-
-
     # create csv report
+    write_csv(entries)
 
 def prepare_directories():
     targets = ['video_clips', 'report']

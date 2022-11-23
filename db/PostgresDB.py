@@ -43,7 +43,7 @@ class PostgresDB(object):
                     clip_id SERIAL PRIMARY KEY,
                     clip_name VARCHAR(255) NOT NULL,
                     clip_file_extension VARCHAR(5) NOT NULL,
-                    clip_duration INTEGER NOT NULL,
+                    clip_duration FLOAT4 NOT NULL,
                     clip_location VARCHAR(255) NOT NULL,
                     insert_timestamp TIMESTAMP NOT NULL
                 );
@@ -70,14 +70,14 @@ class PostgresDB(object):
             logging.debug('Databse connection closed.')
 
 
-    def insert_record(self, name:str, extension:str, duration:int, location:str) -> int:
+    def insert_record(self, name:str, extension:str, duration:float, location:str) -> int:
         clip_id = None
         """Insert the data safely into the DB"""
         command = """INSERT INTO video_data (clip_name, clip_file_extension, clip_duration, clip_location, insert_timestamp)
                      VALUES(%s, %s, %s, %s, now()) RETURNING clip_id;"""
 
         try:
-            logging.debug(f"{name=}, {extension=}, {duration}, {location}")
+            logging.debug(f"{name=}, {extension=}, {duration=}, {location=}")
 
             self.cur.execute(command, (name, extension, duration, location))
             clip_id = self.cur.fetchone()[0]
