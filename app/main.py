@@ -17,7 +17,7 @@ def main(filename: str):
     # each clip {i}thFrame.{ext}
     video_data = VideoData.VideoData(filename)
 
-    # prepare_directories()
+    prepare_directories()
 
     cutter = Cutter.Cutter(video_data)
     tl = cutter.get_total_seconds()
