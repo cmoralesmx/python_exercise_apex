@@ -79,5 +79,8 @@ class Cutter:
         self.cap.release()
         out.release()
 
+        d = ((frame_idx - 1) - first_frame) / self.fps
+        logging.debug(f'Done with the last clip {frame_idx-1} {first_frame} {d}')
+        init_frames.append([f'{first_frame}thFrame', f'{ext}', f'{d}', f'/app/data/{sub}'])
         logging.debug('Done splitting the video')
         return init_frames
