@@ -27,11 +27,7 @@ def main(filename: str):
 
     with PostgresDB() as pg:
         for record in entries:
-            pg.insert_record(
-                record[0], 
-                record[1],
-                record[2],
-                record[3])
+            pg.insert_record(record[0], record[1], record[2], record[3])
 
     # create csv report
     write_csv(entries)
