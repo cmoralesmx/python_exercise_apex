@@ -1,8 +1,7 @@
 __pycache__
 postgres
 report
-secrets
+secrets/
 video-clips
 *.mp4
-config.ini
 docker-compose.yml
