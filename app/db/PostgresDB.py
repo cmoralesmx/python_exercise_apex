@@ -80,6 +80,7 @@ class PostgresDB(object):
             logging.debug(f"{name=}, {extension=}, {duration=}, {location=}")
 
             self.cur.execute(command, (name, extension, duration, location))
+            self.conn.commit()
             clip_id = self.cur.fetchone()[0]
             logging.debug(f"Inserted clip: {clip_id}")
         except (Exception, psycopg2.DatabaseError) as error:
