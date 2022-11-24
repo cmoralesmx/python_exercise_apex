@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  db_server:
+  postgres:
     image: 'postgres:15-alpine'
     ports:
       - 5432:5432
@@ -14,22 +14,16 @@ services:
     volumes:
       - ./postgres:/var/lib/postgresql/data
     networks:
-      - front
-  app:
-    image: 'camg-solution:latest'
-    volumes:
-      - ./data:/app/data
-      - ./secrets:/app/secrets
-    networks:
-      - front
+      - cluster
 
 volumes:
   postgres:
+
 
 secrets:
   db_password:
     file: ./secrets/POSTGRES_PASSWORD
 
 networks:
-  front:
+  cluster:
     driver: bridge
