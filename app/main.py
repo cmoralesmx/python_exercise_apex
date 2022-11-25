@@ -1,48 +1,56 @@
-import logging
-from pathlib import Path
-from sys import argv
-from os import mkdir
 import csv
+import logging
 
-from db.PostgresDB import PostgresDB
-from Video import VideoData, Cutter
+from sys import argv
+
+from db.postgres import PostgresDB
+from initializer import initialize_app
+from video.cutter import Cutter
+from video.data import VideoData, ClipData
+
 # setup logging
 my_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 logging.basicConfig(level=logging.DEBUG, format=my_format)
 
 
 def main(filename: str):
-    clips = []
-    # cut video into 1-minute clips, save inside video_clips
-    # each clip {i}thFrame.{ext}
-    video_data = VideoData.VideoData(filename)
+    if initialize_app(filename):
 
-    prepare_directories()
+        video_data = VideoData(filename)
 
-    cutter = Cutter.Cutter(video_data)
-    tl = cutter.get_total_seconds()
-    video_data.length = tl
+        video_cutter = Cutter(video_data)
+        tl = video_cutter.get_total_seconds()
+        video_data.length = tl
 
-    entries = cutter.split_video('video_clips', video_data.ext)
+        clips = video_cutter.split_video(video_data.ext)
+        tstamps = {}
 
-    with PostgresDB() as pg:
-        for record in entries:
-            pg.insert_record(record[0], record[1], record[2], record[3])
+        with PostgresDB() as pg:
+            for record in clips:
+                tstamps[record.first_frame] = pg.insert_record(
+                    video_data.name,
+                    record.get_clip_name(),
+                    record.extension,
+                    record.duration,
+                    record.location,
+                )
+        # create csv report
+        write_csv(
+            [
+                [
+                    video_data.name,
+                    record.get_clip_name(),
+                    record.extension,
+                    record.duration,
+                    record.location,
+                    tstamps[record.first_frame],
+                ]
+                for record in clips
+            ]
+        )
 
-    # create csv report
-    write_csv(entries)
 
-def prepare_directories():
-    targets = ['video_clips', 'report']
-    for target in targets:
-        t = f'/app/data/{target}'
-        mkdir(t)
-        target_path = Path(t)
-        if not (target_path.exists and target_path.is_dir):
-            raise RuntimeError("Cannot create directory " + target)
-
-
-def write_csv(entries: list[list[str]])->None:
+def write_csv(entries: list[list[str]]) -> None:
     with open('/app/data/report/generated_video_files', 'wt') as csv_out:
         csv_writter = csv.writer(csv_out)
         csv_writter.writerows(entries)
