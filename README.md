@@ -9,7 +9,7 @@
   - Create a `shared_data` subdirectory `/app/shared_data/`
     - The `airshow.mp4` file must be stored inside this directory
   - Create a `secrets` subdirectory `/app/secrets`
-    - Create the text file: `/app/secrets/config.ini`
+  - Create the text file: `/app/secrets/config.ini`
     - Place the following content inside this file
     ```ini
     [postgres]
@@ -37,14 +37,14 @@
 1. `cd` to the work directory mentioned in the requirements
 1. Clone this repository
 1. Launch the `PostgreSQL` container
-  ```bash
-  docker-compose up -d
-  ```
+    ```bash
+    docker-compose up -d
+    ```
 1. `cd` into the app directory
 1. Create the `Docker` image for this application
-``` bash
-docker build -t cm-solution .
-``` 
+    ``` bash
+    docker build -t cm-solution .
+    ``` 
 1. Launch the image
 ```
 docker run -it -v $(pwd)/shared_data:/app/data -v $(pwd)/secrets:/app/secrets --network repo_cluster cm-solution python main.py /app/data/airshow.mp4
