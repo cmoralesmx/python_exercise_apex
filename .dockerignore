@@ -1,7 +1,0 @@
-__pycache__
-postgres
-report
-secrets/
-video-clips
-*.mp4
-docker-compose.yml
