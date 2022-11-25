@@ -46,9 +46,12 @@
     docker build -t cm-solution .
     ``` 
 1. Launch the image
-```
-docker run -it -v $(pwd)/shared_data:/app/data -v $(pwd)/secrets:/app/secrets --network repo_cluster cm-solution python main.py /app/data/airshow.mp4
-```
+    ```
+    docker run -it -v $(pwd)/shared_data:/app/data -v $(pwd)/secrets:/app/secrets --network repo_cluster cm-solution python main.py /app/data/airshow.mp4
+    ```
+    This will launch a container with two directories from the host system mapped for the application. Doing so enables the data produced from the app to persist after the execution of the task.
+
+    Further details can be discussed in the interview
 
 ### Please note
 
