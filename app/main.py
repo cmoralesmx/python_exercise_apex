@@ -1,4 +1,3 @@
-import csv
 import logging
 
 from sys import argv
@@ -6,7 +5,8 @@ from sys import argv
 from db.postgres import PostgresDB
 from initializer import initialize_app
 from video.cutter import Cutter
-from video.data import VideoData, ClipData
+from video.data import VideoData
+import csv_writer
 
 # setup logging
 my_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -35,25 +35,7 @@ def main(filename: str):
                     record.location,
                 )
         # create csv report
-        write_csv(
-            [
-                [
-                    video_data.name,
-                    record.get_clip_name(),
-                    record.extension,
-                    record.duration,
-                    record.location,
-                    tstamps[record.first_frame],
-                ]
-                for record in clips
-            ]
-        )
-
-
-def write_csv(entries: list[list[str]]) -> None:
-    with open('/app/data/report/generated_video_files', 'wt') as csv_out:
-        csv_writter = csv.writer(csv_out)
-        csv_writter.writerows(entries)
+        csv_writer.write(video_data.name, clips, tstamps)
 
 
 if __name__ == '__main__':
