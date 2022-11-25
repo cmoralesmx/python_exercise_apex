@@ -35,7 +35,8 @@ def main(filename: str):
                     record.location,
                 )
         # create csv report
-        csv_writer.write(video_data.name, clips, tstamps)
+        csv_w = csv_writer.Writer()
+        csv_w.write(video_data.name, clips, tstamps)
 
 
 if __name__ == '__main__':
