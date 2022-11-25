@@ -1,0 +1,6 @@
+__pycache__
+.venv
+secrets/
+report
+video-clips
+*.mp4
