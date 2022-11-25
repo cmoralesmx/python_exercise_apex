@@ -19,12 +19,13 @@
     password=videodb-password
     ```
     The `user`, `database`, and `password` can be changed as desired.  
-    - Create the text file: `/app/secrets/POSTGRES_PASSWORD`
+  - Create the text file: `/app/secrets/POSTGRES_PASSWORD`
     - Write the same password from `/app/secrets/config.ini` inside this file.
     - If using the data shown here, the content of this file must be:
     ```
     videodb-password
     ```
+
     Otherwise, adjust accordingly
     >Note: Following best practices, sensitive data MUST NOT be hard coded and much less 
     versioned with the rest of the code. Thus, this manual approach works for demonstration
@@ -51,6 +52,9 @@ docker run -it -v $(pwd)/shared_data:/app/data -v $(pwd)/secrets:/app/secrets --
 
 ### Please note
 
-Some basic elements, such as `db`, and `user` will be created when launching
-the `PostgreSQL` instance. However, the table for the application is not created
-in this step
+Some basic elements, such as the `data base`, and the `user` for this database 
+will be created at launch time of the `PostgreSQL` instance. However, the table
+for the application is not created at this time.
+
+To validate this, you could log into the Postgres instance and query the postgres server
+directly
